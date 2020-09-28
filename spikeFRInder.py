@@ -22,7 +22,7 @@ from utils import F, Cadzow
 def sliding_window_predict(signal,
                            Fs,
                            K_full_signal_estimate,
-                           tau_grid_ends=[0.1, 0.4],
+                           alpha_grid_ends=[7, 1.75],
                            window_lengths=[301, 601, 801, 1101],
                            jump_size=25,
                            OF=4,
@@ -40,10 +40,9 @@ def sliding_window_predict(signal,
         Sampling frequency of the signal
     K_full_signal_estimate : int
         Estimate of the number of spikes in the entire signal
-    tau_grid_ends : list (length=2), default=[0.1, 0.4]
-        Endpoints of the grid within which to search for the time constant tau,
-        in seconds, for decaying exponentials of the form exp(-t*alpha),
-        where alpha=log2(2)/tau
+    alpha_grid_ends : list (length=2), default=[7, 1.75]
+        Endpoints of the grid within which to search for the time constant,
+        alpha, for decaying exponentials of the form exp(-t*alpha).
     window_lengths : list, default=[301, 601, 801, 1101]
         The window lengths to use. Each length is used with a sliding
         window approach and the results are summed together.
@@ -73,14 +72,10 @@ def sliding_window_predict(signal,
         start_pt = 0
         end_pt = window_len
 
-        tau_hat_list = []
-        center_pt_list = []
-
-
         while end_pt < N:
             sig = signal[start_pt:np.clip(end_pt, 0, N-1)]
 
-            d = estimate_tk_indices(signal=sig, Fs=Fs, K=K, tau_grid_ends=tau_grid_ends, OF=OF)
+            d = estimate_tk_ak(signal=sig, Fs=Fs, K=K, alpha_grid_ends=alpha_grid_ends, OF=OF)
 
             tk_indices = d['tk_indices']
             ak_hat = d['ak_hat']
@@ -100,7 +95,7 @@ def sliding_window_predict(signal,
     return likelihood_counts
 
 
-def estimate_tk_indices(signal, Fs, K, tau_grid_ends, OF):
+def estimate_tk_ak(signal, Fs, K, alpha_grid_ends, OF=4):
     """
     Estimate the indices of most likely spikes in the signal using the FRI method.
     
@@ -112,10 +107,9 @@ def estimate_tk_indices(signal, Fs, K, tau_grid_ends, OF):
         Sampling frequency of signal
     K : int
         Number of spikes assumed to be in the signal
-    tau_grid_ends : list (length=2), default=[0.1, 0.4]
-        Endpoints of the grid within which to search for the time constant tau,
-        in seconds, for decaying exponentials of the form exp(-t*alpha),
-        where alpha=log2(2)/tau
+    alpha_grid_ends : list (length=2), default=[7, 1.75]
+        Endpoints of the grid within which to search for the time constant,
+        alpha, for decaying exponentials of the form exp(-t*alpha).
     OF : int, positive
         oversampling factor to define the number of Fourier coefficients
         to use from the signal, by L = (OF * K * 2) + 1
@@ -123,17 +117,17 @@ def estimate_tk_indices(signal, Fs, K, tau_grid_ends, OF):
     Returns
     -------
     d : Dictionary of outputs containing the following
-        'tk_indices' : array of indices corresponding to the predicted spikes, shape=(K,)
+        'tk_indices' : array of indices corresponding to the predicted spike locations, shape=(K,)
         'ak_hat'    : estimated amplitudes of detected spikes, shape=(K,)
     """
     
-    # normalize the tau estimate to the length of the signal, since the model
+    # scale the alpha estimate to the length of the signal, since the model
     # assumes the signal is 1 second long
     N = len(signal)
     N_full = N
     seconds = N / Fs # duration of signal in seconds
-    alpha_grid_ends = [np.log(2) / (tau_g / seconds) for tau_g in tau_grid_ends]
-    
+    alpha_grid_ends = [alpha * seconds for alpha in alpha_grid_ends]
+
     # compute Fourier series
     Zk_tilde = fft(signal)
     
@@ -153,10 +147,10 @@ def estimate_tk_indices(signal, Fs, K, tau_grid_ends, OF):
     # error variable
     e = np.zeros(alpha_grid.size)
 
-    for ii,tau in enumerate(alpha_grid):
+    for ii, alpha in enumerate(alpha_grid):
 
         # estimated Fourier coefficients
-        Sk = fftshift(Zk_tilde) * (tau + 1j*wk)
+        Sk = fftshift(Zk_tilde) * (alpha + 1j*wk)
 
         Sk = Cadzow(Sk,K,N)
 
