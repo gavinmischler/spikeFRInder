@@ -4,7 +4,7 @@ This repository contains the code for the methods for estimating spikes in a str
 
 ### Basic Decaying Exponential Model
 
-The model assumes the input signal to come from a stream of dirac delta functions convolved with a decaying exponential. Thus, the signal in continuous-time is of the form
+The model assumes the input signal to come from a stream of dirac delta functions convolved with a causal decaying exponential. Thus, the signal in continuous-time is of the form
 
 <img src="figures/model_form.png" alt="model form" width="500">
 
@@ -14,7 +14,7 @@ Estimating spike times and amplitudes from a signal can be done with the followi
 
 ```python
 from spikeFRInder import estimate_tk_ak
-output = estimate_tk_ak(signal, Fs, K, alpha_grid_ends, oversampling_factor)
+output = estimate_tk_ak(signal, Fs, K, alpha_grid_ends)
 ```
 
 The code includes descriptions of all parameters.
