@@ -1,6 +1,10 @@
 # spikeFRInder: Spike inference algorithm using frequency-domain FRI framework
 
-This repository contains the code for the methods for estimating spikes in a stream of decaying exponentials.
+This repository contains the code for the methods for estimating spikes in a stream of decaying exponentials, which is described in the upcoming paper
+
+**A finite rate of innovation approach for the estimation of a stream of decaying exponentials**
+
+in the ASILOMAR Conference on Signals, Systems, and Computers (2020).
 
 ### Basic Decaying Exponential Model
 
