@@ -1,10 +1,6 @@
 # spikeFRInder: Spike inference algorithm using frequency-domain FRI framework
 
-This repository contains the code for the methods for estimating spikes in a stream of decaying exponentials, which is described in the upcoming paper
-
-**A finite rate of innovation approach for the estimation of a stream of decaying exponentials**
-
-in the ASILOMAR Conference on Signals, Systems, and Computers (2020).
+This repository contains the code for the methods for estimating spikes in a stream of decaying exponentials, which is described in the upcoming paper **A finite rate of innovation approach for the estimation of a stream of decaying exponentials** in the ASILOMAR Conference on Signals, Systems, and Computers (2020).
 
 ### Basic Decaying Exponential Model
 
@@ -19,6 +15,8 @@ Estimating spike times and amplitudes from a signal can be done with the followi
 ```python
 from spikeFRInder import estimate_tk_ak
 output = estimate_tk_ak(signal, Fs, K, alpha_grid_ends)
+tk_indices = output['tk_indices']
+ak_hat = output['ak_hat']
 ```
 
 The code includes descriptions of all parameters.
@@ -29,7 +27,9 @@ An application of this is in spike inference with calcium imaging signals. This 
 
 ```python
 from spikeFRInder import sliding_window_predict
-sliding_window_predict(signal, Fs, K_full_signal_estimate)
+smoothed_estimate_histogram = sliding_window_predict(signal, Fs, K_full_signal_estimate)
 ```
 
-The code includes descriptions of all parameters, including optional arguments which should be optimized. An example using a synthetic calcium signal can be found in `example.ipynb`.
+The code includes descriptions of all parameters, including optional arguments which should be optimized. The smoothed estimate histogram can be thresholded to obtain more exact spike location estimates. 
+
+An example using a synthetic calcium signal can be found in `example.ipynb`.

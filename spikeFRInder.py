@@ -21,7 +21,7 @@ from utils import F, Cadzow
 # ============================================================================
 def sliding_window_predict(signal,
                            Fs,
-                           K_full_signal_estimate,
+                           K,
                            alpha_grid_ends=[7, 1.75],
                            window_lengths=[301, 601, 801, 1101],
                            jump_size=25,
@@ -38,7 +38,7 @@ def sliding_window_predict(signal,
         Calcium signal (preprocessed).
     Fs : int
         Sampling frequency of the signal
-    K_full_signal_estimate : int
+    K : int
         Estimate of the number of spikes in the entire signal
     alpha_grid_ends : list (length=2), default=[7, 1.75]
         Endpoints of the grid within which to search for the time constant,
@@ -66,7 +66,7 @@ def sliding_window_predict(signal,
 
     for window_len in window_lengths:
         # estimate K for this window
-        K = round(window_len / len(signal) * K_full_signal_estimate)
+        K = max(round(window_len / len(signal) * K), 1)
 
         N = len(signal)
         start_pt = 0
