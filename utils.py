@@ -27,26 +27,6 @@ def F(alpha,Zk,wk,K,cadzow=False):
     # return smallest singular value
     return s[-1]
 
-# def Prony(Yk, K, cadzow=False):
-#     """
-#     Estimation of locations using Prony's method.
-#     """
-#     Y = Yk.copy()
-#     if cadzow:
-#         N = len(Yk)
-#         Y = Cadzow(Y, K=K, N=N)
-
-#     # find annihilating filter
-#     Qh = svd( toeplitz(Y[K:],Y[np.arange(K,-1,-1)]) )[2]
-#     h  = Qh[-1,:].conj()
-#     h  = h/h[0]
-    
-#     # estimate time locations from the roots of the polynomial
-#     tk_hat = np.sort( np.mod( np.angle( np.roots( h[::-1] ) ) / 2.0 / pi, 1 ) ).reshape((K,1))
-        
-#     # return estimates
-#     return tk_hat
-
 def Cadzow(Xk, K, N, tol_ratio=10000, max_iter=10):
     """
     Implement Cadzow denoising
