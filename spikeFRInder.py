@@ -24,9 +24,9 @@ def sliding_window_predict(signal,
                            K,
                            alpha_grid_ends=[7, 1.75],
                            window_lengths=[301, 601, 801, 1101],
-                           jump_size=25,
+                           jump_size=30,
                            OF=4,
-                           smoothing_sigma=5):
+                           smoothing_sigma=7.5):
     """
     Use multiple sliding windows to estimate spikes. Returns dictionary
     containing aggregated array of spike likelihoods, same length as
