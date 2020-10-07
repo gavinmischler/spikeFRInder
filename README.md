@@ -40,7 +40,7 @@ The following figure demonstrates a thresholded output from a real calcium imagi
 
 ### Script to recreate paper figure
 
-The script `crossval.py` was used to generate Fig. 4 in the paper. However, we do not own the data, which must be downloaded using a CRCNS.org account, so it is not included here.
+The script `crossval.py` was used to generate Fig. 3 in the paper. However, we do not own the data, which must be downloaded using a CRCNS.org account, so it is not included here.
 
 ### Preprocessing code
 
