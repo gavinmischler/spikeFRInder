@@ -1,6 +1,8 @@
 # spikeFRInder: Spike inference algorithm using frequency-domain FRI framework
 
-This repository contains the code for the methods for estimating spikes in a stream of decaying exponentials, which is described in the upcoming paper **A finite rate of innovation approach for the estimation of a stream of decaying exponentials** in the ASILOMAR Conference on Signals, Systems, and Computers (2020).
+This code can be used to estimate the locations of a stream of decaying exponentials, such as neural spikes in a calcium imaging recording, as described in the following paper:
+
+> Béjar, Benjamín and Gavin Mischler. "A finite rate of innovation approach for the estimation of a stream of decaying exponentials." 2020 54th Asilomar Conference on Signals, Systems, and Computers, (2020): 1497-1501.
 
 ### Basic decaying exponential model
 
@@ -40,9 +42,23 @@ The following figure demonstrates a thresholded output from a real calcium imagi
 
 ### Script to recreate paper figure
 
-The script `crossval.py` was used to generate Fig. 4 in the paper. However, we do not own the data, which must be downloaded using a CRCNS.org account, so it is not included here.
+The script `crossval.py` was used to generate Fig. 4 in the paper. We do not own the data, which must be downloaded using a CRCNS.org account, so it is not included in this repository.
 
 ### Preprocessing code
 
 The calcium signal preprocessing was done with a slightly modified version of the preprocessing done by  [Theis et al. Benchmarking spike rate inference in population calcium imaging](http://bethgelab.org/publications/127/). Thus, the code in `c2s_preprocess_modified.py` comes from [their provided code](https://github.com/lucastheis/c2s), with only a minor change in the method of robust linear regression. 
+
+## BibTeX Citation
+
+```tex
+@INPROCEEDINGS{9443495,
+  author={Béjar, Benjamín and Mischler, Gavin},
+  booktitle={2020 54th Asilomar Conference on Signals, Systems, and Computers}, 
+  title={A finite rate of innovation approach for the estimation of a stream of decaying exponentials}, 
+  year={2020},
+  volume={},
+  number={},
+  pages={1497-1501},
+  doi={10.1109/IEEECONF51394.2020.9443495}}
+```
 
