@@ -51,7 +51,7 @@ The calcium signal preprocessing was done with a slightly modified version of th
 ## BibTeX Citation
 
 ```tex
-@INPROCEEDINGS{9443495,
+@INPROCEEDINGS{bejar2020finite,
   author={Béjar, Benjamín and Mischler, Gavin},
   booktitle={2020 54th Asilomar Conference on Signals, Systems, and Computers}, 
   title={A finite rate of innovation approach for the estimation of a stream of decaying exponentials}, 
