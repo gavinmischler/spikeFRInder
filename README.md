@@ -1,6 +1,6 @@
 # spikeFRInder: Spike inference algorithm using frequency-domain FRI framework
 
-This code can be used to estimate the locations of a stream of decaying exponentials, such as neural spikes in a calcium imaging recording, as described in the following paper:
+This code can be used to estimate the locations of a stream of decaying exponentials, such as neural spikes in a calcium imaging recording, as described in this [paper](https://doi.org/10.1109/IEEECONF51394.2020.9443495):
 
 > Béjar, Benjamín and Gavin Mischler. "A finite rate of innovation approach for the estimation of a stream of decaying exponentials." 2020 54th Asilomar Conference on Signals, Systems, and Computers, (2020): 1497-1501.
 
